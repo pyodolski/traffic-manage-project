@@ -134,7 +134,10 @@ async function loadMatches() {
             )}</span>
             <span>🏟️ ${match.stadium}</span>
             <span>💰 ${match.price.toLocaleString()}원</span>
-            <span>🪑 ${match.available_seats}석 남음</span>
+            <span>🪑 ${match.available_seats}/${match.total_seats}석 (${(
+          ((match.total_seats - match.available_seats) / match.total_seats) *
+          100
+        ).toFixed(0)}% 예매)</span>
           </div>
         </div>
         <button onclick="openStadiumModal(${match.id}, '${match.home_team}', '${
