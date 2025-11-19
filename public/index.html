@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>축구 티켓팅 시스템</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- 모니터링 토글 버튼 -->
+  <button class="monitor-toggle-btn" id="monitor-toggle-btn" onclick="toggleWidget()" style="display: none">
+    <span class="status-indicator"></span>
+    <span>모니터링</span>
+  </button>
+
+  <!-- 실시간 모니터링 위젯 -->
+  <div class="monitor-widget" id="monitor-widget" style="display: none">
+    <div class="monitor-widget-header">
+      <h4>
+        <span class="status-indicator"></span>
+        실시간 모니터링
+      </h4>
+      <button class="close-btn" onclick="toggleWidget()">✕</button>
+    </div>
+    <div class="monitor-widget-content">
+      <div class="monitor-widget-item">
+        <div class="monitor-widget-label">CPU 사용률</div>
+        <div class="monitor-widget-value" id="widget-cpu">--%</div>
+        <div class="monitor-widget-bar">
+          <div class="monitor-widget-bar-fill" id="widget-cpu-bar"></div>
+        </div>
+      </div>
+      <div class="monitor-widget-item">
+        <div class="monitor-widget-label">메모리 사용률</div>
+        <div class="monitor-widget-value" id="widget-memory">--%</div>
+        <div class="monitor-widget-bar">
+          <div class="monitor-widget-bar-fill" id="widget-memory-bar"></div>
+        </div>
+      </div>
+      <div class="monitor-widget-info">
+        <div class="monitor-widget-info-item">
+          <div class="monitor-widget-label">CPU 코어</div>
+          <div class="monitor-widget-info-value" id="widget-cores">--</div>
+        </div>
+        <div class="monitor-widget-info-item">
+          <div class="monitor-widget-label">메모리</div>
+          <div class="monitor-widget-info-value" id="widget-total-mem">-- GB</div>
+        </div>
+        <div class="monitor-widget-info-item">
+          <div class="monitor-widget-label">가동시간</div>
+          <div class="monitor-widget-info-value" id="widget-uptime">-- 분</div>
+        </div>
+        <div class="monitor-widget-info-item">
+          <div class="monitor-widget-label">서버</div>
+          <div class="monitor-widget-info-value small" id="widget-hostname">--</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 메인 컨테이너 -->
+  <div class="page-wrapper"></div>
+    <div class="container">
+      <header>
+        <h1>⚽ 축구 티켓팅 시스템</h1>
+        <div id="user-info" style="display: none;">
+          <span id="user-name"></span>
+          <button onclick="logout()">로그아웃</button>
+        </div>
+      </header>
+
+      <!-- 로그인/회원가입 섹션 -->
+      <div id="auth-section">
+        <div class="tabs">
+          <button class="tab active" onclick="showTab('login')">로그인</button>
+          <button class="tab" onclick="showTab('signup')">회원가입</button>
+        </div>
+
+        <!-- 로그인 폼 -->
+        <div id="login-form" class="form-container">
+          <h2>로그인</h2>
+          <form onsubmit="handleLogin(event)">
+            <input type="email" id="login-email" placeholder="이메일" required>
+            <input type="password" id="login-password" placeholder="비밀번호" required>
+            <button type="submit">로그인</button>
+          </form>
+        </div>
+
+        <!-- 회원가입 폼 -->
+        <div id="signup-form" class="form-container" style="display: none;">
+          <h2>회원가입</h2>
+          <form onsubmit="handleSignup(event)">
+            <input type="email" id="signup-email" placeholder="이메일" required>
+            <input type="password" id="signup-password" placeholder="비밀번호" required>
+            <input type="text" id="signup-name" placeholder="이름" required>
+            <input type="tel" id="signup-phone" placeholder="전화번호 (010-1234-5678)">
+            <button type="submit">회원가입</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- 메인 섹션 (로그인 후) -->
+      <div id="main-section" style="display: none;">
+        <div class="welcome-section">
+          <h2>환영합니다! 🎉</h2>
+          <p>축구 경기 티켓을 예매하세요.</p>
+        </div>
+      </div>
+
+      <!-- 메시지 표시 -->
+      <div id="message" class="message"></div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
