@@ -266,6 +266,13 @@ async function updateMonitoring() {
     ).textContent = `${data.system.uptime}분`;
     document.getElementById("widget-hostname").textContent =
       data.system.hostname;
+
+    // 인스턴스 개수 업데이트
+    if (data.instances) {
+      document.getElementById(
+        "widget-instances"
+      ).textContent = `${data.instances.count}개`;
+    }
   } catch (error) {
     console.error("모니터링 오류:", error);
   }
@@ -497,4 +504,76 @@ async function confirmBooking() {
   } catch (error) {
     showMessage("예매 실패", "error");
   }
+}
+
+// 부하 테스트 관련
+let loadTestInterval;
+let loadTestActive = false;
+let requestCount = 0;
+let successCount = 0;
+let errorCount = 0;
+
+async function startLoadTest() {
+  if (loadTestActive) return;
+
+  loadTestActive = true;
+  requestCount = 0;
+  successCount = 0;
+  errorCount = 0;
+
+  document.getElementById("start-load-btn").disabled = true;
+  document.getElementById("stop-load-btn").disabled = false;
+  document.getElementById("load-test-status").textContent =
+    "부하 테스트 진행 중... 🔥";
+  document.getElementById("load-test-stats").style.display = "block";
+
+  // 동시에 여러 요청 보내기
+  loadTestInterval = setInterval(() => {
+    // 동시에 10개의 요청 보내기
+    for (let i = 0; i < 10; i++) {
+      sendLoadRequest();
+    }
+  }, 100); // 0.1초마다 10개씩 = 초당 100개 요청
+}
+
+async function sendLoadRequest() {
+  requestCount++;
+  updateLoadTestStats();
+
+  try {
+    // 랜덤하게 다양한 엔드포인트 호출
+    const endpoints = ["/api/matches", "/api/monitor/system", "/health"];
+
+    const endpoint = endpoints[Math.floor(Math.random() * endpoints.length)];
+    const response = await fetch(endpoint);
+
+    if (response.ok) {
+      successCount++;
+    } else {
+      errorCount++;
+    }
+  } catch (error) {
+    errorCount++;
+  }
+
+  updateLoadTestStats();
+}
+
+function updateLoadTestStats() {
+  document.getElementById("request-count").textContent = requestCount;
+  document.getElementById("success-count").textContent = successCount;
+  document.getElementById("error-count").textContent = errorCount;
+}
+
+function stopLoadTest() {
+  if (!loadTestActive) return;
+
+  loadTestActive = false;
+  clearInterval(loadTestInterval);
+
+  document.getElementById("start-load-btn").disabled = false;
+  document.getElementById("stop-load-btn").disabled = true;
+  document.getElementById(
+    "load-test-status"
+  ).textContent = `부하 테스트 완료! 총 ${requestCount}개 요청`;
 }

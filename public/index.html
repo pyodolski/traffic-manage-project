@@ -55,6 +55,38 @@
           <div class="monitor-widget-label">서버</div>
           <div class="monitor-widget-info-value small" id="widget-hostname">--</div>
         </div>
+        <div class="monitor-widget-info-item highlight">
+          <div class="monitor-widget-label">🖥️ 활성 인스턴스</div>
+          <div class="monitor-widget-info-value large" id="widget-instances">--</div>
+        </div>
+      </div>
+      <div class="load-test-section">
+        <h5>부하 테스트</h5>
+        <div class="load-test-controls">
+          <button class="load-test-btn" id="start-load-btn" onclick="startLoadTest()">
+            🚀 부하 시작
+          </button>
+          <button class="load-test-btn stop" id="stop-load-btn" onclick="stopLoadTest()" disabled>
+            ⏹️ 부하 중지
+          </button>
+        </div>
+        <div class="load-test-status" id="load-test-status">
+          대기 중...
+        </div>
+        <div class="load-test-stats" id="load-test-stats" style="display: none;">
+          <div class="stat-item">
+            <span>요청 수:</span>
+            <span id="request-count">0</span>
+          </div>
+          <div class="stat-item">
+            <span>성공:</span>
+            <span id="success-count">0</span>
+          </div>
+          <div class="stat-item">
+            <span>실패:</span>
+            <span id="error-count">0</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>

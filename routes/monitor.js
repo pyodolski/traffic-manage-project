@@ -27,6 +27,10 @@ router.get("/system", (req, res) => {
         hostname: os.hostname(),
         uptime: Math.floor(os.uptime() / 60),
       },
+      instances: {
+        count: process.env.INSTANCE_COUNT || "N/A",
+        note: "Set INSTANCE_COUNT env variable to show actual count",
+      },
     });
   });
 });
